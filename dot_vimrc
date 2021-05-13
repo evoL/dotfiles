@@ -1,0 +1,7 @@
+" 2-space spaces as tab
+set tabstop=8  " Keep tabs wide to make them visible
+set softtabstop=0 expandtab shiftwidth=2 smarttab
+
+" Line numbers!
+set number
+
