@@ -1,3 +1,9 @@
+[battery]
+format="[█](red)[$percentage]($style)[█](red)"
+
+[[battery.display]]
+style="bold bg:red fg:white"
+
 [cmd_duration]
 format="◦ [$duration]($style) "
 
