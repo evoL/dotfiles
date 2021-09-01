@@ -1,0 +1,17 @@
+{{/* Shell detection */}}
+{{- $shell := "bash" -}}
+{{- if lookPath "fish" -}}
+{{-   $shell = "fish" -}}
+{{- end -}}
+
+{{/* Boolean feature detection */}}
+{{- $headless := false -}}
+
+{{/* Synology is headless */}}
+{{- if stat "/etc/VERSION" -}}
+{{-   $headless = true -}}
+{{- end -}}
+
+[data]
+  headless = {{$headless}}
+  shell = {{$shell | quote}}
