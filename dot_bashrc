@@ -1,2 +1,5 @@
+# Add ~/bin to PATH
+PATH="$HOME/bin:$PATH"
+
 # Starship prompt
 eval "$(starship init bash)"
