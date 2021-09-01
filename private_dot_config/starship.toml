@@ -1,3 +1,65 @@
+format = """
+$shlvl\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$cmake\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$golang\
+$helm\
+$java\
+$julia\
+$kotlin\
+$nim\
+$nodejs\
+$ocaml\
+$perl\
+$php\
+$purescript\
+$python\
+$red\
+$ruby\
+$rust\
+$scala\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$zig\
+$nix_shell\
+$conda\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$env_var\
+$crystal\
+$custom\
+$cmd_duration\
+$username\
+$hostname\
+$line_break\
+$lua\
+$jobs\
+$battery\
+$time\
+$status\
+$shell\
+$character"""
+
 [battery]
 format="[█](red)[$percentage]($style)[█](red)"
 
@@ -21,7 +83,8 @@ format="[$symbol$branch]($style) "
 format='([$all_status$ahead_behind]($style) )'
 
 [hostname]
-format="@[$hostname]($style) in "
+format="[@]($style)[$hostname]($style) "
+style="italic bright-black"
 
 [nodejs]
 format=" [$symbol($version )]($style)"
@@ -37,3 +100,5 @@ detect_extensions=[]
 
 [username]
 format="[$user]($style)"
+style_root="italic bright-red"
+style_user="italic bright-black"
