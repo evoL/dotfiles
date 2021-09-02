@@ -2,6 +2,4 @@
 starship init fish | source
 
 # Environment variables
-{{ if not .headless -}}
-set -gx EDITOR 'subl -w'
-{{- end }}
+set -gx EDITOR {{ .editor | quote }}
