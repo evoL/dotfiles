@@ -17,11 +17,11 @@ setw -g monitor-activity off
 set -g bell-action none
 
 # Change the style to match the prompt
-set -g message-style 'bg=brightblack fg=white'
+set -g message-style 'bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}}'
 
-setw -g mode-style 'bg=brightblack fg=white'
+setw -g mode-style 'bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}}'
 
-set -g pane-border-style 'bg=black fg=brightblack'
+set -g pane-border-style 'bg=black fg={{.tmux.accentcolor}}'
 set -g pane-active-border-style 'bg=black fg=white'
 
 set -g status-justify left
@@ -35,5 +35,5 @@ set -g status-right-length 40
 setw -g window-status-style 'fg=brightblack'
 setw -g window-status-format ' #[dim]#I·#[nodim]#W '
 
-setw -g window-status-current-style 'bg=brightblack fg=white'
-setw -g window-status-current-format '#[bg=black fg=brightblack]#[default dim] #I·#[nodim]#W #[bg=black fg=brightblack]'
+setw -g window-status-current-style 'bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}}'
+setw -g window-status-current-format '#[bg=black fg={{.tmux.accentcolor}}]#[default dim] #I·#[nodim]#W #[bg=black fg={{.tmux.accentcolor}}]'

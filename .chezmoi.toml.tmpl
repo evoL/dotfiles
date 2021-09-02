@@ -1,11 +1,11 @@
-{{/* Shell detection */}}
+{{/* Variables */}}
+{{- $headless := false -}}
 {{- $shell := "bash" -}}
+
+{{/* Shell detection */}}
 {{- if lookPath "fish" -}}
 {{-   $shell = "fish" -}}
 {{- end -}}
-
-{{/* Boolean feature detection */}}
-{{- $headless := false -}}
 
 {{/* Synology is headless */}}
 {{- if stat "/etc/VERSION" -}}
@@ -15,3 +15,7 @@
 [data]
   headless = {{$headless}}
   shell = {{$shell | quote}}
+
+[data.tmux]
+  accentcolor = "brightblack"
+  textonaccentcolor = "white"
