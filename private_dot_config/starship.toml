@@ -87,6 +87,7 @@ format="[@]($style)[$hostname]($style) "
 style="italic bright-black"
 
 [nodejs]
+detect_extensions=[]
 format=" [$symbol($version )]($style)"
 
 [package]
