@@ -86,6 +86,9 @@ format='([$all_status$ahead_behind]($style) )'
 format="[@]($style)[$hostname]($style) "
 style="italic bright-black"
 
+[java]
+detect_extensions=[]
+
 [nodejs]
 detect_extensions=[]
 format=" [$symbol($version )]($style)"
