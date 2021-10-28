@@ -5,3 +5,5 @@ set softtabstop=0 expandtab shiftwidth=2 smarttab
 " Line numbers!
 set number
 
+" Syntax highlighting is also nice.
+syntax on
