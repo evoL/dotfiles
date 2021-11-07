@@ -73,6 +73,9 @@ format="◦ [$duration]($style) "
 format=" [$symbol($version )]($style)"
 symbol="▲ "
 
+[dart]
+format=" [$symbol($version )]($style)"
+
 [directory]
 style="bold italic cyan"
 
@@ -101,6 +104,7 @@ disabled=true
 
 [python]
 detect_extensions=[]
+format=' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [username]
 format="[$user]($style)"
