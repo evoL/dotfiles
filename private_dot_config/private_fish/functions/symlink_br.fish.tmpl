@@ -1,0 +1,6 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+{{ .chezmoi.homeDir }}/Library/Application Support/org.dystroy.broot/launcher/fish/br.fish
+{{ end -}}
+{{- if (eq .chezmoi.os "linux") -}}
+{{ .chezmoi.homeDir }}/.config/broot/launcher/fish/br.fish
+{{ end -}}
