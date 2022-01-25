@@ -6,3 +6,8 @@ eval "$(starship init bash)"
 
 # Environment variables
 export EDITOR={{ .editor | quote }}
+
+# Setup Broot (https://dystroy.org/broot/)
+if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
+  source "$HOME/.config/broot/launcher/bash/br"
+fi
