@@ -5,4 +5,4 @@ starship init fish | source
 set -gx EDITOR {{ .editor | quote }}
 
 # Aliases
-alias ta="tmux attach"
+alias ta="tmux attach-session -t hey || tmux new-session -s hey"

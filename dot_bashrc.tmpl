@@ -13,4 +13,4 @@ if [ -f "$HOME/.config/broot/launcher/bash/br" ]; then
 fi
 
 # Aliases
-alias ta="tmux attach"
+alias ta="tmux attach-session -t hey || tmux new-session -s hey"
