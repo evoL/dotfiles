@@ -3,6 +3,9 @@ starship init fish | source
 
 # Environment variables
 set -gx EDITOR {{ .editor | quote }}
+set -gx NNN_OPENER nuke
 
 # Aliases
 alias ta="tmux attach-session -t hey || tmux new-session -s hey"
+alias nnn="nnn -ce"
+
