@@ -1,5 +1,28 @@
-function _bf_csv_escape
-    sed -E 's/"/""/' | sed -E 's/^(.*)$/"\1"/'
+function _bf_extract_key --description 'Extracts the key from a bookmark entry'
+    cat - | string replace --regex '^([^,]*),.*$' '$1'
+end
+
+function _bf_extract_value --description 'Extracts the value from a bookmark entry'
+    cat - | string replace --regex '^[^,]*,(.*)$' '$1'
+end
+
+function _bf_find_bookmark_entry_by_name --description 'Finds a bookmark entry'
+    cat $BFDIRS | string match "$argv[1],*"
+end
+
+# Returns the remaining database.
+function _bf_delete_bookmark_entry_by_name --description 'Deletes a bookmark entry'
+    cat $BFDIRS | string match --invert "$argv[1],*"
+end
+
+# A counterpart to _bf_fish_expand. For every string FOO, `[_bf_fish_expand (_bf_fish_escape FOO) = FOO]`
+function _bf_fish_escape --description "Escapes a Fish string"
+    echo \'"$(string replace \' \\\' $argv[1])"\'
+end
+
+# A counterpart to _bf_fish_escape.
+function _bf_fish_expand --description "Expands a string using Fish"
+    eval "echo $argv[1]"
 end
 
 function _bf_delete_bookmark
@@ -26,14 +49,17 @@ function _bf_delete_bookmark
         __bf_delete_bookmark_print_help >&2
         return 1
     end
+    set -f key $argv[1]
 
-    set -l matches (cat $BFDIRS | csvgrep -H -c1 --regex "^$argv[1]\$" | csvcut -c2)
-    if [ (printf "%s\n" $matches | wc -l) -le 1 ]
+    set -l matches (_bf_find_bookmark_entry_by_name $key)
+    if [ (count $matches) -eq 0 ]
         echo -e "\033[0;31mERROR: '$argv[1]' bookmark does not exist.\033[00m" >&2
         return 1
     end
 
-    sed -i -E "/^$argv[1],/d" $BFDIRS
+    set -l tmp (mktemp)
+    _bf_delete_bookmark_entry_by_name $key >$tmp
+    mv $tmp $BFDIRS
 end
 
 function _bf_go_to_bookmark
@@ -49,7 +75,7 @@ function _bf_go_to_bookmark
             "    Show this help message."
     end
 
-    argparse h/help plumbing -- $argv
+    argparse h/help -- $argv
 
     if set -ql _flag_h
         __bf_go_to_bookmark_print_help
@@ -60,20 +86,23 @@ function _bf_go_to_bookmark
         __bf_go_to_bookmark_print_help >&2
         return 1
     end
+    set -l key $argv[1]
 
-    set -l matches (cat $BFDIRS | csvgrep -H -c1 --regex "^$argv[1]\$" | csvcut -c2)
-    if [ (printf "%s\n" $matches | wc -l) -le 1 ]
-        echo -e "\033[0;31mERROR: '$argv[1]' bookmark does not exist.\033[00m" >&2
+    set -l matches (_bf_find_bookmark_entry_by_name $key)
+    if [ (count $matches) -eq 0 ]
+        echo -e "\033[0;31mERROR: '$key' bookmark does not exist.\033[00m" >&2
         return 1
     end
 
-    set -l target (printf "%s\n" $matches | tail -n1 | _bf_csv_unescape)
+    set -l unexpanded_target (echo -n $matches[1] | _bf_extract_value)
+    set -l target "$(_bf_fish_expand $unexpanded_target)"
+
 
     if [ -d $target ]
         cd $target
         return 0
     else
-        echo -e "\033[0;31mERROR: The target directory for '$argv[1]', '$target', does not exist.\033[00m" >&2
+        echo -e "\033[0;31mERROR: The target directory for '$key', '$target', does not exist.\033[00m" >&2
         return 1
     end
 end
@@ -103,12 +132,10 @@ function _bf_list_bookmarks
     set -l TMPK (mktemp)
     set -l TMPV (mktemp)
     if set -ql _flag_plain
-        cat $BFDIRS | csvcut -H -c1 | tail -n+2 >$TMPK
-        cat $BFDIRS | csvcut -H -c2 | tail -n+2 | _bf_csv_unescape >$TMPV
-        paste -d"," $TMPK $TMPV
+        cat $BFDIRS
     else
-        cat $BFDIRS | csvcut -H -c1 | tail -n+2 | awk '/.*/{printf("\033[0;33m%-20s\033[0m \n", $0);}' >$TMPK
-        cat $BFDIRS | csvcut -H -c2 | tail -n+2 | _bf_csv_unescape >$TMPV
+        cat $BFDIRS | _bf_extract_key | awk '/.*/{printf("\033[0;33m%-20s\033[0m \n", $0);}' >$TMPK
+        cat $BFDIRS | _bf_extract_value >$TMPV
         paste -d" " $TMPK $TMPV
     end
     rm $TMPV
@@ -135,18 +162,19 @@ function _bf_print_bookmark
         return 0
     end
 
-    if [ (count $argv) -lt 1 ]
+    if [ (count $argv) -eq 0 ]
         echo -e "\033[0;31mERROR: bookmark name required\033[00m" >&2
         return 1
     end
+    set -f key $argv[1]
 
-    set -l matches (cat $BFDIRS | csvgrep -H -c1 --regex "^$argv[1]\$" | csvcut -c2)
-    if [ (printf "%s\n" $matches | wc -l) -le 1 ]
+    set -l matches (_bf_find_bookmark_entry_by_name $key)
+    if [ (count $matches) -eq 0 ]
         echo -e "\033[0;31mERROR: '$argv[1]' bookmark does not exist.\033[00m" >&2
         return 1
     end
 
-    cat $BFDIRS | grep $argv[1], | csvcut -H -c2 | tail -n+2 | _bf_csv_unescape
+    _bf_fish_expand (echo $matches[1] | _bf_extract_value)
 end
 
 function _bf_save_bookmark
@@ -177,23 +205,45 @@ function _bf_save_bookmark
         echo -e "\033[0;31mERROR: bookmark name required.\033[00m" >&2
         return 1
     end
+    set -f key $argv[1]
 
-    # Bookmark names are used in regexpes, so make sure we don't need to escape them.
-    #
-    # Commas, double quotes, and newlines are special characters in CSV files.
-    if echo $argv[1] | grep -q '[][",^$()\\]'
-        echo -e "\033[0;31mERROR: Bookmark names can not contain commas, double colons, and regex special characters.\033[00m" >&2
+    # Commas are used as a delimiter between keys and values.
+    if string match --entire --quiet ',' $key
+        echo -e "\033[0;31mERROR: Bookmark names can not contain commas.\033[00m" >&2
+        return 1
+    end
+    # Newlines end entries.
+    if string match --entire --quiet \n $key
+        echo -e "\033[0;31mERROR: Bookmark names can not contain newlines.\033[00m" >&2
         return 1
     end
 
-    set -l matches (cat $BFDIRS | csvgrep -H -c1 --regex "^$argv[1]\$" | csvcut -c2)
-    if [ (printf "%s\n" $matches | wc -l) -gt 1 ]
-        echo -e "\033[0;31mERROR: '$argv[1]' bookmark already exists. Delete it first.\033[00m" >&2
+    if [ (count $argv) -ge 2 ]
+        set -f value $argv[2]
+    else
+        set -f value "$(_bf_fish_escape $PWD)"
+    end
+
+    # Newlines end entries.
+    if string match --entire --quiet \n $value
+        echo -e "\033[0;31mERROR: Bookmark paths can not contain newlines.\033[00m" >&2
         return 1
     end
 
-    echo "$argv[1],"(pwd | _bf_csv_escape) >>$BFDIRS
+    if cat $BFDIRS | string match --quiet "$key,*"
+        if set -ql _flag_force
+            set -l tmp (mktemp)
+            _bf_delete_bookmark_entry_by_name $key >$tmp
+            echo $key,$value >>$tmp \
+                && mv $tmp $BFDIRS
+            return $status
+        else
+            echo -e "\033[0;31mERROR: '$key' bookmark already exists. Delete it first.\033[00m" >&2
+            return 1
+        end
+    end
 
+    echo "$key,$value" >>$BFDIRS
 end
 
 function bf --description "Manage Fish bookmarks"
