@@ -2,4 +2,3 @@ README.md
 {{ if ne .chezmoi.os "darwin" }}
 .gitignore_global_darwin
 {{ end }}
-
