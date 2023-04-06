@@ -3,7 +3,7 @@
 # fish_plugins hash: {{ include "private_dot_config/private_fish/fish_plugins" | sha256sum }}
 
 # Bootstrap fisher if it's not installed
-if not type --query fisher
+if not type -q fisher
   curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 end
 fisher update
