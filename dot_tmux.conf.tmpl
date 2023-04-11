@@ -10,6 +10,9 @@ set -g renumber-windows on
 bind  %  split-window -h -c "#{pane_current_path}"
 bind '"' split-window -v -c "#{pane_current_path}"
 
+# Toggle "synchronize-panes" with C-b C-x
+bind-key C-X set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
+
 # Show messages for longer
 set -g display-time 3000
 
