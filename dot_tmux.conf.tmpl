@@ -1,6 +1,9 @@
 # Enable italics
 set -g default-terminal "tmux-256color"
 
+# Enable mouse mode
+set -g mouse on
+
 # 1-based indices are easier to type
 set -g base-index 1
 setw -g pane-base-index 1
@@ -12,6 +15,14 @@ bind '"' split-window -v -c "#{pane_current_path}"
 
 # Toggle "synchronize-panes" with C-b C-x
 bind-key C-X set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
+
+# Toggle a floating window with C-b C-w
+bind C-W if-shell -F '#{==:#{session_name},floating}' {
+  detach-client
+} {
+  display-popup -d '#{pane_current_path}' -E -xC -yC -w70% -h70% 'tmux new-session -A -s floating'
+}
+set-hook -g session-created { if-shell -F '#{==:#{session_name},floating}' { set status off } }
 
 # Show messages for longer
 set -g display-time 3000
@@ -33,8 +44,8 @@ set -g pane-active-border-style 'bg=default fg={{.tmux.accentcolor}}'
 
 set -g status-justify left
 set -g status-style 'fg=brightblack'
-set -g status-left 'tmux  '
-set -g status-left-length 6
+set -g status-left '#{host_short}  '
+set -g status-left-length 10
 set -g status-right "#{?window_zoomed_flag,#[default fg=yellow]zoomed #[none] ,}"
 set -ag status-right '#[default]%Y-%m-%d %H:%M'
 set -g status-right-length 40
