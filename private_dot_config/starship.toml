@@ -51,13 +51,13 @@ $custom\
 $cmd_duration\
 $username\
 $hostname\
+$shell\
 $line_break\
 $lua\
 $jobs\
 $battery\
 $time\
 $status\
-$shell\
 $character"""
 
 [battery]
@@ -105,6 +105,19 @@ disabled=true
 [python]
 detect_extensions=[]
 format=' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[shell]
+disabled=false
+bash_indicator='🥊'
+fish_indicator='🐟'
+zsh_indicator='🐙'
+powershell_indicator='⚡'
+ion_indicator='⚛️'
+elvish_indicator='🧝'
+tcsh_indicator='🦖'
+xonsh_indicator='🐍'
+cmd_indicator='💻'
+nu_indicator='💥'
 
 [username]
 format="[$user]($style)"
