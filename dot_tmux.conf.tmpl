@@ -4,6 +4,10 @@ set -g default-terminal "tmux-256color"
 # Enable mouse mode
 set -g mouse on
 
+# Pass "Ptmux;" escape sequences through to the terminal
+# This enables OSC52 sequences from command line tools
+setw -g allow-passthrough on
+
 # 1-based indices are easier to type
 set -g base-index 1
 setw -g pane-base-index 1
