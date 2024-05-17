@@ -13,6 +13,9 @@ set -g base-index 1
 setw -g pane-base-index 1
 set -g renumber-windows on
 
+# Show the current directory as the default window name
+set -g automatic-rename-format '#{s|^.*/||:pane_current_path}'
+
 # Maintain the path when splitting windows
 bind  %  split-window -h -c "#{pane_current_path}"
 bind '"' split-window -v -c "#{pane_current_path}"
