@@ -1,6 +1,7 @@
 [user]
   name = Rafał Hirsch
   email = rafal@hirsch.net
+  signingkey = {{ .chezmoi.homeDir }}/.ssh/id_ed25519.pub
 [core]
   excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
 [init]
@@ -9,3 +10,7 @@
   rebase = true
 [push]
   autoSetupRemote = true
+[gpg]
+  format = ssh
+[commit]
+  gpgsign = true
