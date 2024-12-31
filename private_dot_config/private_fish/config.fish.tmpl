@@ -15,4 +15,6 @@ end
 if command -q zoxide
   zoxide init fish | source
 end
-
+if command -q jj
+  COMPLETE=fish jj | source
+end
