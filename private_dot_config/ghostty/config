@@ -1,0 +1,12 @@
+# Fonts
+font-family = Cartograph CF
+font-size = 12
+adjust-cell-width = -1
+
+# Theme
+theme = light:evolved-light,dark:evolved-dark
+
+# Toggle the terminal using Hyper+F13
+# This is _almost_ like the Quick Terminal, but it's a proper, fully featured
+# window — it supports tabs!
+keybind = global:ctrl+alt+super+shift+f13=toggle_visibility
