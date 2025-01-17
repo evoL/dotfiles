@@ -79,6 +79,7 @@
                         "vendor_id": 6780
                     },
                     "ignore": false,
+                    "mouse_flip_vertical_wheel": true,
                     "simple_modifications": [
                         {
                             "from": { "pointing_button": "button3" },
