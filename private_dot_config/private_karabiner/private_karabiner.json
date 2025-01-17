@@ -1,199 +1,207 @@
 {
-  "profiles": [
-    {
-      "complex_modifications": {
-        "rules": [
-          {
-            "description": "Double-tap Ctrl → Hyper+F13",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "name": "ctrl-count",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "from": {
-                  "key_code": "left_control",
-                  "modifiers": { "optional": [] }
-                },
-                "to": [
-                  {
-                    "key_code": "f13",
-                    "modifiers": [
-                      "left_command",
-                      "left_control",
-                      "left_option",
-                      "left_shift"
-                    ]
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "type": "device_if",
-                    "identifiers": [
-                      { "vendor_id": 1452 },
-                      { "is_built_in_keyboard": true }
-                    ]
-                  }
-                ],
-                "from": {
-                  "key_code": "left_control",
-                  "modifiers": { "optional": [] }
-                },
-                "to": [
-                  {
-                    "set_variable": {
-                      "name": "ctrl-count",
-                      "value": 1
-                    }
-                  }
-                ],
-                "to_delayed_action": {
-                  "to_if_canceled": [
+    "profiles": [
+        {
+            "complex_modifications": {
+                "rules": [
                     {
-                      "set_variable": {
-                        "name": "ctrl-count",
-                        "value": 0
-                      }
-                    }
-                  ],
-                  "to_if_invoked": [
+                        "description": "Double-tap Ctrl → Hyper+F13",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "ctrl-count",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": { "optional": [] }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f13",
+                                        "modifiers": ["left_command", "left_control", "left_option", "left_shift"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            { "vendor_id": 1452 },
+                                            { "is_built_in_keyboard": true }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": { "optional": [] }
+                                },
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "set_variable": {
+                                                "name": "ctrl-count",
+                                                "value": 0
+                                            }
+                                        },
+                                        { "sticky_modifier": { "left_control": "toggle" } }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "ctrl-count",
+                                                "value": 0
+                                            }
+                                        }
+                                    ]
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "ctrl-count",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "set_variable": {
+                                            "name": "ctrl-count",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "halt": true,
+                                        "key_code": "left_control"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
                     {
-                      "set_variable": {
-                        "name": "ctrl-count",
-                        "value": 0
-                      }
+                        "description": "Scroll on mouse press",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "product_id": 407,
+                                                "vendor_id": 6780
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    },
+                                    {
+                                        "type": "event_changed_if",
+                                        "value": false
+                                    }
+                                ],
+                                "from": {
+                                    "modifiers": { "optional": ["any"] },
+                                    "pointing_button": "button2"
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "enable_mouse_motion_to_scroll",
+                                            "value": 1
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "set_variable": {
+                                            "name": "enable_mouse_motion_to_scroll",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "enable_mouse_motion_to_scroll",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": { "modifiers": { "optional": ["any"] } },
+                                "options": {
+                                    "momentum_scroll_enabled": false,
+                                    "speed_multiplier": 1.0
+                                },
+                                "type": "mouse_motion_to_scroll"
+                            }
+                        ]
                     }
-                  ]
-                },
-                "type": "basic"
-              }
-            ]
-          },
-          {
-            "description": "Scroll on mouse press",
-            "manipulators": [
-              {
-                "conditions": [
-                  {
-                    "identifiers": [
-                      {
+                ]
+            },
+            "devices": [
+                {
+                    "identifiers": {
+                        "is_pointing_device": true,
                         "product_id": 407,
                         "vendor_id": 6780
-                      }
-                    ],
-                    "type": "device_if"
-                  },
-                  {
-                    "type": "event_changed_if",
-                    "value": false
-                  }
-                ],
-                "from": {
-                  "modifiers": { "optional": ["any"] },
-                  "pointing_button": "button2"
+                    },
+                    "ignore": false,
+                    "mouse_flip_vertical_wheel": true,
+                    "simple_modifications": [
+                        {
+                            "from": { "pointing_button": "button3" },
+                            "to": [{ "pointing_button": "button2" }]
+                        },
+                        {
+                            "from": { "pointing_button": "button4" },
+                            "to": [{ "pointing_button": "button5" }]
+                        },
+                        {
+                            "from": { "pointing_button": "button5" },
+                            "to": [{ "pointing_button": "button3" }]
+                        },
+                        {
+                            "from": { "pointing_button": "button6" },
+                            "to": [{ "pointing_button": "button4" }]
+                        }
+                    ]
                 },
-                "to": [
-                  {
-                    "set_variable": {
-                      "name": "enable_mouse_motion_to_scroll",
-                      "value": 1
-                    }
-                  }
-                ],
-                "to_after_key_up": [
-                  {
-                    "set_variable": {
-                      "name": "enable_mouse_motion_to_scroll",
-                      "value": 0
-                    }
-                  }
-                ],
-                "type": "basic"
-              },
-              {
-                "conditions": [
-                  {
-                    "name": "enable_mouse_motion_to_scroll",
-                    "type": "variable_if",
-                    "value": 1
-                  }
-                ],
-                "from": { "modifiers": { "optional": ["any"] } },
-                "options": {
-                  "momentum_scroll_enabled": false,
-                  "speed_multiplier": 1.0
-                },
-                "type": "mouse_motion_to_scroll"
-              }
-            ]
-          }
-        ]
-      },
-      "devices": [
-        {
-          "identifiers": {
-            "is_pointing_device": true,
-            "product_id": 407,
-            "vendor_id": 6780
-          },
-          "ignore": false,
-          "mouse_flip_vertical_wheel": true,
-          "simple_modifications": [
-            {
-              "from": { "pointing_button": "button3" },
-              "to": [{ "pointing_button": "button2" }]
-            },
-            {
-              "from": { "pointing_button": "button4" },
-              "to": [{ "pointing_button": "button5" }]
-            },
-            {
-              "from": { "pointing_button": "button5" },
-              "to": [{ "pointing_button": "button3" }]
-            },
-            {
-              "from": { "pointing_button": "button6" },
-              "to": [{ "pointing_button": "button4" }]
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "vendor_id": 17241
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "left_command" },
+                            "to": [{ "key_code": "left_control" }]
+                        },
+                        {
+                            "from": { "key_code": "left_control" },
+                            "to": [{ "key_code": "left_command" }]
+                        },
+                        {
+                            "from": { "key_code": "right_command" },
+                            "to": [{ "key_code": "right_control" }]
+                        },
+                        {
+                            "from": { "key_code": "right_control" },
+                            "to": [{ "key_code": "right_command" }]
+                        }
+                    ]
+                }
+            ],
+            "name": "Default profile",
+            "selected": true,
+            "virtual_hid_keyboard": {
+                "country_code": 0,
+                "keyboard_type_v2": "ansi"
             }
-          ]
-        },
-        {
-          "identifiers": {
-            "is_keyboard": true,
-            "vendor_id": 17241
-          },
-          "simple_modifications": [
-            {
-              "from": { "key_code": "left_command" },
-              "to": [{ "key_code": "left_control" }]
-            },
-            {
-              "from": { "key_code": "left_control" },
-              "to": [{ "key_code": "left_command" }]
-            },
-            {
-              "from": { "key_code": "right_command" },
-              "to": [{ "key_code": "right_control" }]
-            },
-            {
-              "from": { "key_code": "right_control" },
-              "to": [{ "key_code": "right_command" }]
-            }
-          ]
         }
-      ],
-      "name": "Default profile",
-      "selected": true,
-      "virtual_hid_keyboard": {
-        "country_code": 0,
-        "keyboard_type_v2": "ansi"
-      }
-    }
-  ]
+    ]
 }
