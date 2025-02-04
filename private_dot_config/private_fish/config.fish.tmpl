@@ -18,3 +18,9 @@ end
 if command -q jj
   COMPLETE=fish jj | source
 end
+
+{{- if eq .chezmoi.os "darwin" }}
+# Add SSH key to the keychain to avoid entering the passphrase
+# -q = quiet
+ssh-add --apple-use-keychain -q ~/.ssh/id_ed25519 > /dev/null
+{{- end }}
