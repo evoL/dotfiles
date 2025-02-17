@@ -3,6 +3,7 @@ starship init fish | source
 
 # Environment variables
 set -gx EDITOR {{ .editor | quote }}
+set -gx JJ_CONFIG $HOME/.config/jj/config.toml # mirror Linux defaults
 
 # Aliases
 alias g="bf go"
