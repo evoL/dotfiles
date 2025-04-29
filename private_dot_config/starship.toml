@@ -1,6 +1,11 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
-right_format = "$shell$time"
+right_format = """
+$shell\
+$username\
+$hostname\
+$time
+"""
 
 [battery]
 format = "[█](red)[$percentage]($style)[█](red)"
@@ -77,6 +82,6 @@ time_format = "%R"
 symbol = "t "
 
 [username]
-format = "[$user]($style)"
+format = " [$user]($style)"
 style_root = "italic bright-red"
 style_user = "italic bright-black"
