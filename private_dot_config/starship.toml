@@ -1,75 +1,75 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 [battery]
-format="[█](red)[$percentage]($style)[█](red)"
+format = "[█](red)[$percentage]($style)[█](red)"
 
 [[battery.display]]
-style="bold bg:red fg:white"
+style = "bold bg:red fg:white"
 
 [cmd_duration]
-format="◦ [$duration]($style) "
+format = "◦ [$duration]($style) "
 
 [cmake]
-format=" [$symbol($version )]($style)"
-symbol="▲ "
+format = " [$symbol($version )]($style)"
+symbol = "▲ "
 
 [dart]
-format=" [$symbol($version )]($style)"
+format = " [$symbol($version )]($style)"
 
 [directory]
-style="bold italic cyan"
+style = "bold italic cyan"
 
 [erlang]
 symbol = "ⓔ "
 
 [git_branch]
-format="[$symbol$branch]($style) "
+format = "[$symbol$branch]($style) "
 
 [git_status]
-format='([$all_status$ahead_behind]($style) )'
+format = '([$all_status$ahead_behind]($style) )'
 
 [hostname]
-format="[@]($style)[$hostname]($style) "
-style="italic bright-black"
+format = "[@]($style)[$hostname]($style) "
+style = "italic bright-black"
 
 [java]
-detect_extensions=[]
+detect_extensions = []
 
 [nodejs]
-detect_extensions=[]
-format=" [$symbol($version )]($style)"
-symbol="[⬢](bold green) "
+detect_extensions = []
+format = " [$symbol($version )]($style)"
+symbol = "[⬢](bold green) "
 
 [package]
-format=" [$symbol$version]($style) "
+format = " [$symbol$version]($style) "
 
 [php]
-disabled=true
+disabled = true
 
 [pulumi]
 symbol = "🧊 "
 
 [python]
-detect_extensions=[]
-format=' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+detect_extensions = []
+format = ' [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
 [shell]
-disabled=false
-bash_indicator='🥊'
-fish_indicator='🐟'
-zsh_indicator='🐙'
-powershell_indicator='⚡'
-ion_indicator='⚛️'
-elvish_indicator='🧝'
-tcsh_indicator='🦖'
-xonsh_indicator='🐍'
-cmd_indicator='💻'
-nu_indicator='💥'
+disabled = false
+bash_indicator = '🥊'
+fish_indicator = '🐟'
+zsh_indicator = '🐙'
+powershell_indicator = '⚡'
+ion_indicator = '⚛️'
+elvish_indicator = '🧝'
+tcsh_indicator = '🦖'
+xonsh_indicator = '🐍'
+cmd_indicator = '💻'
+nu_indicator = '💥'
 
 [typst]
 symbol = "t "
 
 [username]
-format="[$user]($style)"
-style_root="italic bright-red"
-style_user="italic bright-black"
+format = "[$user]($style)"
+style_root = "italic bright-red"
+style_user = "italic bright-black"
