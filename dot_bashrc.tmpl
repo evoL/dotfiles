@@ -1,3 +1,6 @@
+# Load ble.sh (https://github.com/akinomyoga/ble.sh)
+[[ $- == *i* ]] && source ~/.local/share/blesh/ble.sh --noattach
+
 # Add ~/bin to PATH
 PATH="$HOME/bin:$PATH"
 
@@ -14,3 +17,6 @@ fi
 
 # Aliases
 alias ta="tmux attach-session -t hey || tmux new-session -s hey"
+
+# Attach ble.sh
+[[ ! ${BLE_VERSION-} ]] || ble-attach
