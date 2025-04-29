@@ -1,5 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+right_format = "$shell$time"
+
 [battery]
 format = "[█](red)[$percentage]($style)[█](red)"
 
@@ -65,6 +67,11 @@ tcsh_indicator = '🦖'
 xonsh_indicator = '🐍'
 cmd_indicator = '💻'
 nu_indicator = '💥'
+
+[time]
+disabled = false
+format = " [$time]($style)"
+time_format = "%R"
 
 [typst]
 symbol = "t "
