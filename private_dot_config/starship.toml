@@ -19,6 +19,9 @@ format=" [$symbol($version )]($style)"
 [directory]
 style="bold italic cyan"
 
+[erlang]
+symbol = "ⓔ "
+
 [git_branch]
 format="[$symbol$branch]($style) "
 
@@ -35,12 +38,16 @@ detect_extensions=[]
 [nodejs]
 detect_extensions=[]
 format=" [$symbol($version )]($style)"
+symbol="[⬢](bold green) "
 
 [package]
 format=" [$symbol$version]($style) "
 
 [php]
 disabled=true
+
+[pulumi]
+symbol = "🧊 "
 
 [python]
 detect_extensions=[]
@@ -58,6 +65,9 @@ tcsh_indicator='🦖'
 xonsh_indicator='🐍'
 cmd_indicator='💻'
 nu_indicator='💥'
+
+[typst]
+symbol = "t "
 
 [username]
 format="[$user]($style)"
