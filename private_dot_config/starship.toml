@@ -23,6 +23,9 @@ symbol = "▲ "
 [dart]
 format = " [$symbol($version )]($style)"
 
+[deno]
+format = " [$symbol($version )]($style)"
+
 [directory]
 style = "bold italic cyan"
 
