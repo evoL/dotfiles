@@ -18,6 +18,15 @@
                                     "key_code": "left_control",
                                     "modifiers": { "optional": [] }
                                 },
+                                "parameters": { "basic.to_if_alone_timeout_milliseconds": 250 },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "ctrl-count",
+                                            "value": 0
+                                        }
+                                    }
+                                ],
                                 "to_if_alone": [
                                     {
                                         "key_code": "f13",
@@ -40,26 +49,11 @@
                                     "key_code": "left_control",
                                     "modifiers": { "optional": [] }
                                 },
-                                "to_delayed_action": {
-                                    "to_if_canceled": [
-                                        {
-                                            "set_variable": {
-                                                "name": "ctrl-count",
-                                                "value": 0
-                                            }
-                                        },
-                                        { "sticky_modifier": { "left_control": "toggle" } }
-                                    ],
-                                    "to_if_invoked": [
-                                        {
-                                            "set_variable": {
-                                                "name": "ctrl-count",
-                                                "value": 0
-                                            }
-                                        }
-                                    ]
+                                "parameters": {
+                                    "basic.to_delayed_action_delay_milliseconds": 300,
+                                    "basic.to_if_held_down_threshold_milliseconds": 250
                                 },
-                                "to_if_alone": [
+                                "to": [
                                     {
                                         "set_variable": {
                                             "name": "ctrl-count",
@@ -67,6 +61,35 @@
                                         }
                                     }
                                 ],
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "conditions": [
+                                                {
+                                                    "name": "ctrl-count",
+                                                    "type": "variable_if",
+                                                    "value": 1
+                                                }
+                                            ],
+                                            "sticky_modifier": { "left_control": "toggle" }
+                                        },
+                                        {
+                                            "set_variable": {
+                                                "name": "ctrl-count",
+                                                "value": 0
+                                            }
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "set_variable": {
+                                                "name": "ctrl-count",
+                                                "value": 0
+                                            }
+                                        },
+                                        { "key_code": "left_control" }
+                                    ]
+                                },
                                 "to_if_held_down": [
                                     {
                                         "set_variable": {
