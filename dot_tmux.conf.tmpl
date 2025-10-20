@@ -6,11 +6,11 @@ set -g mouse on
 
 # Pass "Ptmux;" escape sequences through to the terminal
 # This enables OSC52 sequences from command line tools
-setw -g allow-passthrough on
+set -wg allow-passthrough on
 
 # 1-based indices are easier to type
 set -g base-index 1
-setw -g pane-base-index 1
+set -wg pane-base-index 1
 set -g renumber-windows on
 
 # Show the current directory as the default window name
@@ -21,10 +21,10 @@ bind  %  split-window -h -c "#{pane_current_path}"
 bind '"' split-window -v -c "#{pane_current_path}"
 
 # Toggle "synchronize-panes" with C-b C-x
-bind-key C-X set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
+bind-key C-x set-option -w synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
 
 # Toggle a floating window with C-b C-w
-bind C-W if-shell -F '#{==:#{session_name},floating}' {
+bind C-w if-shell -F '#{==:#{session_name},floating}' {
   detach-client
 } {
   display-popup -d '#{pane_current_path}' -E -xC -yC -w70% -h70% 'tmux new-session -A -s floating'
@@ -38,13 +38,13 @@ set -g display-time 3000
 set -g visual-activity off
 set -g visual-bell off
 set -g visual-silence off
-setw -g monitor-activity off
+set -g monitor-activity off
 set -g bell-action none
 
 # Change the style to match the prompt
 set -g message-style 'bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}}'
 
-setw -g mode-style 'bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}}'
+set -wg mode-style 'bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}}'
 
 set -g pane-border-style 'default'
 set -g pane-active-border-style 'bg=default fg={{.tmux.accentcolor}}'
@@ -57,8 +57,8 @@ set -g status-right "#{?window_zoomed_flag,#[default fg=yellow]zoomed #[none]
 set -ag status-right '#[default]%Y-%m-%d %H:%M'
 set -g status-right-length 40
 
-setw -g window-status-style 'fg=brightblack'
-setw -g window-status-format ' #[dim]#I·#[nodim]#W '
+set -wg window-status-style 'fg=brightblack'
+set -wg window-status-format ' #[dim]#I·#[nodim]#W '
 
-setw -g window-status-current-style 'default'
-setw -g window-status-current-format '#[bg=default fg={{.tmux.accentcolor}}]#[bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}} dim] #I·#[nodim]#W #[bg=default fg={{.tmux.accentcolor}}]'
+set -wg window-status-current-style 'default'
+set -wg window-status-current-format '#[bg=default fg={{.tmux.accentcolor}}]#[bg={{.tmux.accentcolor}} fg={{.tmux.textonaccentcolor}} dim] #I·#[nodim]#W #[bg=default fg={{.tmux.accentcolor}}]'
