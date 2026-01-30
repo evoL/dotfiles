@@ -1,3 +1,7 @@
+# Path
+fish_add_path $HOME/bin
+test -d $HOME/.antigravity; and fish_add_path $HOME/.antigravity/antigravity/bin
+
 # Starship prompt
 starship init fish | source
 
