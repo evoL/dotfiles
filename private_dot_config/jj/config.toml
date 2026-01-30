@@ -2,6 +2,9 @@
 name = "Rafał Hirsch"
 email = "rafal@hirsch.net"
 
+[ui]
+default-command = "log"
+
 [signing]
 behavior = "own"
 backend = "ssh"
